@@ -1,0 +1,12 @@
+C:\Users\ryncm\source\repos\dynamic_content_test\bin\Debug\dynamic_content_test.exe.config
+C:\Users\ryncm\source\repos\dynamic_content_test\bin\Debug\dynamic_content_test.exe
+C:\Users\ryncm\source\repos\dynamic_content_test\bin\Debug\dynamic_content_test.pdb
+C:\Users\ryncm\source\repos\dynamic_content_test\bin\Debug\dynamic_content_test.xml
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.vbprojAssemblyReference.cache
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.Resources.resources
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.vbproj.GenerateResource.cache
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.vbproj.CoreCompileInputs.cache
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.exe
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.xml
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.pdb
+C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.Form1.resources
