@@ -1,13 +1,14 @@
 ﻿#Disable Warning BC42328
+
+Imports System.IO
+Imports System.Xml
+
 Public Class Form1
 
     Dim ds As New DataTable()
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Set up ds
-        'ds.Columns.Add("TaskName", GetType(String))
-        'ds.Columns.Add("TaskName", GetType(String))
-        'ds.Columns.Add("TaskName", GetType(String))
+        AddHandler Application.ApplicationExit, AddressOf Form1_ApplicationExit
 
         activePanel.AutoScroll = True
         completedPanel.AutoScroll = True
@@ -24,123 +25,113 @@ Public Class Form1
         addButton.FlatStyle = FlatStyle.Flat
         addButton.FlatAppearance.BorderSize = 0
 
-        Dim int = 5
-        Dim taskElement As TaskElement = Nothing
-        For i As Integer = 0 To int - 1
-            taskElement = New TaskElement()
-            taskElement.Create(activePanel, completedPanel, "task name " & i & " test", "task text " & i & " test", New Point(10, 5 + 75 * i))
-            activePanel.Controls.Add(taskElement.elem)
+        ' Read XML data file
+        Dim fileLocation As String = Application.StartupPath & "\taskList.xml", data As New DataSet()
+
+        'data.Tables.Add()
+        'data.Tables(0).Columns.Add("taskName", GetType(String))
+        'data.Tables(0).Columns.Add("isCompleted", GetType(Boolean))
+        'data.Tables(0).Columns.Add("isDeleted", GetType(Boolean))
+        'data.Tables(0).Columns.Add("locationIndex", GetType(Integer))
+
+        data = readXML(fileLocation)
+
+        '' Write new data
+        'writeXML(data, fileLocation)
+
+        For Each i In data.Tables(0).Rows
+            Dim taskElement As New Task(i.Item(0), Integer.Parse(i.Item(1)), Boolean.Parse(i.Item(2)), Boolean.Parse(i.Item(3)), activePanel, completedPanel)
+            If Not taskElement.isComplete Then
+                activePanel.Controls.Add(taskElement)
+            ElseIf taskElement.isComplete Then
+                completedPanel.Controls.Add(taskElement)
+            End If
         Next
-        activePanel.Width = taskElement.elem.Width + 50
-        Me.Width = activePanel.Width
 
-        ' Load XML
+        Me.Width = activePanel.Width = 385
+    End Sub
 
-        'Dim xmlFile As XmlReader
-        'xmlFile = XmlReader.Create("history.xml", New XmlReaderSettings())
+    Public Function readXML(FileLocation As String)
+        Dim dataset As New DataSet(),
+            datatable As DataTable,
+            response As String = File.ReadAllText(FileLocation)
 
-        'Try
-        '    ds.ReadXml(xmlFile)
-        '    MsgBox(ds.Rows(0).Item(0))
-        '    TextBox1.Text = ds.Rows(0).Item(0)
-        '    xmlFile.Close()
-        '    Return True
-        'Catch ex As Exception
-        '    xmlFile.Close()
-        '    Return False
-        'End Try
-        MsgBox(GroupBox2.Size.ToString())
+        dataset.ReadXml(New StringReader(response))
+        datatable = dataset.Tables(0)
+
+        Return dataset
+    End Function
+
+    Public Sub writeXML(Data As DataSet, FileLocation As String)
+
+        Dim settings As XmlWriterSettings = New XmlWriterSettings()
+        settings.Indent = True
+        settings.IndentChars = "    "
+
+        Dim writer As XmlWriter = XmlWriter.Create(FileLocation, settings)
+
+        writer.WriteStartDocument()
+        writer.WriteStartElement("tasks")
+        Dim tasksTable = Data.Tables(0)
+        For Each d In tasksTable.Rows
+            writer.WriteStartElement("task")
+            writer.WriteElementString("taskText", d.Item(0))
+            writer.WriteElementString("isDeleted", d.Item(1))
+            writer.WriteElementString("isCompleted", d.Item(2))
+            writer.WriteElementString("positionIndex", d.Item(3))
+            writer.WriteEndElement()
+        Next
+        writer.WriteEndElement()
+        writer.WriteEndDocument()
+
+        writer.Close()
+    End Sub
+
+    Private Sub Form1_ApplicationExit()
+        '' Add 4 tasks to data
+        'Data.Tables(0).Rows.Add("task 0", False, False, 0)
+        'Data.Tables(0).Rows.Add("task 1", False, False, 1)
+        'Data.Tables(0).Rows.Add("task 2", False, False, 2)
+        'Data.Tables(0).Rows.Add("task 3", False, False, 3)
+        'Data.Tables(0).Rows.Add("task 4", False, False, 3)
+        'Data.Tables(0).Rows.Add("task 5", False, False, 3)
     End Sub
 
 End Class
 
 Public Class Colours
-    Public Property thebestcolour As Color = System.Drawing.ColorTranslator.FromHtml("#07c")
-
-    Public Property white As Color = System.Drawing.ColorTranslator.FromHtml("#fff")
-    Public Property lightGray As Color = System.Drawing.ColorTranslator.FromHtml("#F5F5F5")
-    Public Property midGray As Color = System.Drawing.ColorTranslator.FromHtml("#dbdbdb")
-    Public Property darkGray As Color = System.Drawing.ColorTranslator.FromHtml("#3d3d3d")
-    Public Property VdarkGray As Color = System.Drawing.ColorTranslator.FromHtml("#181818")
-    Public Property black As Color = System.Drawing.ColorTranslator.FromHtml("#000")
-    Public Property green As Color = System.Drawing.ColorTranslator.FromHtml("#23d160")
-    Public Property yellow As Color = System.Drawing.ColorTranslator.FromHtml("#ffdd57")
-    Public Property red As Color = System.Drawing.ColorTranslator.FromHtml("#ff3860")
+    Public Property thebestcolour As Color = ColorTranslator.FromHtml("#0077cc")
+    Public Property white As Color = ColorTranslator.FromHtml("#ffffff")
+    Public Property lightGray As Color = ColorTranslator.FromHtml("#f5f5f5")
+    Public Property midGray As Color = ColorTranslator.FromHtml("#dbdbdb")
+    Public Property darkGray As Color = ColorTranslator.FromHtml("#3d3d3d")
+    Public Property VdarkGray As Color = ColorTranslator.FromHtml("#181818")
+    Public Property black As Color = ColorTranslator.FromHtml("#000000")
+    Public Property green As Color = ColorTranslator.FromHtml("#23d160")
+    Public Property yellow As Color = ColorTranslator.FromHtml("#ffdd57")
+    Public Property red As Color = ColorTranslator.FromHtml("#ff3860")
 End Class
 
-Public Class TaskElement
+Public Class Task
+    Inherits Panel
 
-    Public Property elem As Panel = Nothing
-    Public Property activePanel As Panel = Nothing
+    Public Property defaultWidth As Integer = 62
+    Public Property defaultHeight As Integer = 62
+    Public Property defaultFontsize As Integer = 20
+
+    Public Property isDeleted As Boolean = Nothing
+    Public Property isComplete As Boolean = Nothing
+
     Public Property completedPanel As Panel = Nothing
-    Public Property isDeleted As Boolean = False
-    Public Property isComplete As Boolean = False
+    Public Property activePanel As Panel = Nothing
 
-    Public Sub Delete(sender As Object, e As EventArgs)
-        Me.isDeleted = True
-        Dim senderIndex As Integer = sender.Parent.Parent.Controls.IndexOf(sender.Parent)
-        For Each i In sender.Parent.Parent.Controls
-            If (sender.Parent.Parent.Controls.IndexOf(i) > senderIndex) Then
-                i.Location -= New Point(0, 75)
-            End If
-        Next
-        sender.Parent.Parent.Controls.Remove(sender.Parent)
-    End Sub
+    Public Property positionIndex As Integer = 0
 
-    Public Sub Undo(sender As Button, e As EventArgs)
+    Public Property colours As New Colours
 
-        Me.isComplete = False
-        Dim colours As New Colours
-        completedPanel.Controls.Remove(sender.Parent)
-        activePanel.Controls.Add(sender.Parent)
+    Public Sub New(taskText As String, taskPositionIndex As Integer, isCompleteBool As Boolean, isDeletedBool As Boolean, activePanelElem As Panel, completedPanelElem As Panel)
 
-        Dim senderIndex As Integer = sender.Parent.Parent.Controls.IndexOf(sender.Parent)
-        For Each i In sender.Parent.Parent.Controls
-            If (sender.Parent.Parent.Controls.IndexOf(i) > senderIndex) Then
-                i.Location -= New Point(0, 75)
-            End If
-        Next
-
-        sender.BackColor = colours.green
-        sender.Text = "✔"
-        sender.Parent.Location = New Point(10, 75 * (activePanel.Controls.Count - 1))
-
-        AddHandler sender.Click, AddressOf Me.Complete
-        RemoveHandler sender.Click, AddressOf Me.Undo
-    End Sub
-
-    Public Sub Complete(sender As Button, e As EventArgs)
-        Me.isComplete = True
-        Dim senderIndex As Integer = sender.Parent.Parent.Controls.IndexOf(sender.Parent)
-        Dim colours As New Colours
-        For Each i In activePanel.Controls
-            If (sender.Parent.Parent.Controls.IndexOf(i) > senderIndex) Then
-                i.Location -= New Point(0, 75)
-            End If
-        Next
-        activePanel.Controls.Remove(sender.Parent)
-        completedPanel.Controls.Add(sender.Parent)
-
-        sender.BackColor = colours.yellow
-        sender.Text = "⬅"
-        sender.Parent.Location = New Point(10, 5 + 75 * (completedPanel.Controls.Count - 1))
-
-        AddHandler sender.Click, AddressOf Me.Undo
-        RemoveHandler sender.Click, AddressOf Me.Complete
-    End Sub
-
-    Public Sub Create(activePanelElem As Panel, completedPanelElem As Panel, taskName As String, taskText As String, taskPosition As Point)
-        Dim colours As New Colours
-        ' Set default values for controls
-        Dim defaultWidth = 62
-        Dim defaultHeight = 62
-        Dim defaultFontSize = 20
-        ' Create GroupBox
-        Dim taskGroupBox As New Panel
-        taskGroupBox.Location = taskPosition
-        taskGroupBox.Height = defaultHeight
-        taskGroupBox.BackColor = colours.lightGray
-        ' Add complete Button to GroupBox
+        ' Add Complete Button
         Dim taskCompleteButton As New Button
         taskCompleteButton.Dock = DockStyle.Left
         taskCompleteButton.Width = defaultWidth
@@ -150,21 +141,21 @@ Public Class TaskElement
         taskCompleteButton.BackColor = colours.green
         taskCompleteButton.FlatStyle = FlatStyle.Flat
         taskCompleteButton.FlatAppearance.BorderSize = 0
-        taskCompleteButton.Font = New Font(taskCompleteButton.Font.FontFamily, defaultFontSize, taskCompleteButton.Font.Style)
-        AddHandler taskCompleteButton.Click, AddressOf Me.Complete
-        taskGroupBox.Controls.Add(taskCompleteButton)
-        ' Add new TextBox to GroupBox
+        taskCompleteButton.Font = New Font(taskCompleteButton.Font.FontFamily, defaultFontsize, taskCompleteButton.Font.Style)
+        AddHandler taskCompleteButton.Click, AddressOf Me.complete
+
+        ' Add TextBox
         Dim taskTextBox As New TextBox
         taskTextBox.Top = ((taskCompleteButton.Height) / 2) - (taskTextBox.Height / 2) + 2.5
         taskTextBox.Left = taskCompleteButton.Location.X + taskCompleteButton.Size.Width + 10
         taskTextBox.Width = defaultWidth * 3
-        'taskTextBox.Height = defaultHeight - 2
+        taskTextBox.Height = defaultHeight - 2
         taskTextBox.Text = taskText
         taskTextBox.BackColor = colours.lightGray
         taskTextBox.ForeColor = colours.black
         taskTextBox.BorderStyle = BorderStyle.None
-        taskGroupBox.Controls.Add(taskTextBox)
-        ' Add delete Button to GroupBox
+
+        ' Add Delete Button
         Dim taskDeleteButton As New Button
         taskDeleteButton.Dock = DockStyle.Right
         taskDeleteButton.Width = defaultWidth
@@ -174,17 +165,89 @@ Public Class TaskElement
         taskDeleteButton.BackColor = colours.red
         taskDeleteButton.FlatStyle = FlatStyle.Flat
         taskDeleteButton.FlatAppearance.BorderSize = 0
-        taskDeleteButton.Font = New Font(taskDeleteButton.Font.FontFamily, defaultFontSize, taskDeleteButton.Font.Style)
-        AddHandler taskDeleteButton.Click, AddressOf Me.Delete
-        taskGroupBox.Controls.Add(taskDeleteButton)
-        ' Add GroupBox to all controls
-        taskGroupBox.Width = taskCompleteButton.Width + taskTextBox.Width + taskDeleteButton.Width + 6 + (10 * 2)
-        ' Set elements
+        taskDeleteButton.Font = New Font(taskDeleteButton.Font.FontFamily, defaultFontsize, taskDeleteButton.Font.Style)
+        AddHandler taskDeleteButton.Click, AddressOf Me.delete
+
+        ' Set GroupBox Properties + Add Elements
+        Me.BackColor = colours.lightGray
+        Me.Height = defaultHeight
+        Me.Width = taskCompleteButton.Width + taskTextBox.Width + taskDeleteButton.Width + 6 + (10 * 2)
+        Me.Controls.Add(taskDeleteButton)
+        Me.Controls.Add(taskTextBox)
+        Me.Controls.Add(taskCompleteButton)
+        changePositionIndex(taskPositionIndex)
+
+        ' Set Class Properties
         activePanel = activePanelElem
         completedPanel = completedPanelElem
-        activePanel.AutoScroll = True
-        completedPanel.AutoScroll = True
-        elem = taskGroupBox
+        isComplete = isCompleteBool
+        isDeleted = isDeletedBool
     End Sub
+
+    Public Function changePositionIndex(newIndex As Integer)
+        Me.Location = New Point(10, 75 * newIndex)
+        positionIndex = newIndex
+        Return newIndex
+    End Function
+
+    Public Function complete(sender As Button, e As EventArgs)
+        If isComplete Then
+            Me.undo(sender, e)
+            Return True
+        End If
+
+        isComplete = True
+        For Each i In Me.Parent.Controls
+            If i.positionIndex > Me.positionIndex Then
+                i.changePositionIndex(i.positionIndex - 1)
+            End If
+        Next
+
+        changePositionIndex(completedPanel.Controls.Count)
+        sender.BackColor = colours.yellow
+        sender.Text = "⬅"
+
+        activePanel.Controls.Remove(sender.Parent)
+        completedPanel.Controls.Add(sender.Parent)
+
+        Return True
+    End Function
+
+    Public Function delete(sender As Object, e As EventArgs)
+        Dim confirmed = MsgBox("Are you sure you want to delete this task?" & vbCrLf & "This action CANNOT BE UNDONE.", vbYesNo)
+
+        If confirmed = vbYes And Not isDeleted Then
+            isDeleted = True
+            For Each i In Me.Parent.Controls
+                If i.positionIndex > Me.positionIndex Then
+                    i.changePositionIndex(i.positionIndex - 1)
+                End If
+            Next
+            sender.Parent.Parent.Controls.Remove(sender.Parent)
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Public Function undo(sender As Button, e As EventArgs)
+        Me.isComplete = False
+
+        For Each i In Me.Parent.Controls
+            If i.positionIndex > Me.positionIndex Then
+                i.changePositionIndex(i.positionIndex - 1)
+            End If
+        Next
+
+        MsgBox(activePanel.Controls.Count)
+        Me.changePositionIndex(activePanel.Controls.Count)
+        sender.BackColor = colours.green
+        sender.Text = "✔"
+
+        completedPanel.Controls.Remove(sender.Parent)
+        activePanel.Controls.Add(sender.Parent)
+
+        Return True
+    End Function
 
 End Class
