@@ -1,39 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tasks>
     <task>
-        <taskText>task 0</taskText>
-		<positionIndex>0</positionIndex>
-		<isCompleted>False</isCompleted>
+        <taskText>test</taskText>
+        <isCompleted>False</isCompleted>
         <isDeleted>False</isDeleted>
+        <positionIndex>0</positionIndex>
     </task>
-	<task>
-        <taskText>task 4</taskText>
-		<positionIndex>1</positionIndex>
-		<isCompleted>False</isCompleted>
+    <task>
+        <taskText>this is a task</taskText>
+        <isCompleted>False</isCompleted>
         <isDeleted>False</isDeleted>
+        <positionIndex>1</positionIndex>
     </task>
-	<task>
-        <taskText>task 5</taskText>
-		<positionIndex>2</positionIndex>
-		<isCompleted>False</isCompleted>
+    <task>
+        <taskText>test</taskText>
+        <isCompleted>False</isCompleted>
         <isDeleted>False</isDeleted>
+        <positionIndex>2</positionIndex>
     </task>
-		<task>
-        <taskText>task 1</taskText>
-		<positionIndex>0</positionIndex>
-		<isCompleted>True</isCompleted>
+    <task>
+        <taskText>memes</taskText>
+        <isCompleted>False</isCompleted>
         <isDeleted>False</isDeleted>
-    </task>
-	<task>
-        <taskText>task 2</taskText>
-		<positionIndex>1</positionIndex>
-		<isCompleted>True</isCompleted>
-        <isDeleted>False</isDeleted>
-    </task>
-	<task>
-        <taskText>task 3</taskText>
-		<positionIndex>2</positionIndex>
-		<isCompleted>True</isCompleted>
-        <isDeleted>False</isDeleted>
+        <positionIndex>3</positionIndex>
     </task>
 </tasks>

@@ -3,15 +3,12 @@
 Imports System.IO
 Imports System.Xml
 
-Public Class Form1
+Public Class viewTasksForm
 
-    Dim ds As New DataTable()
+    Dim fileLocation As String = Application.StartupPath & "\taskList.xml",
+        addTaskForm As New addTaskForm
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AddHandler Application.ApplicationExit, AddressOf Form1_ApplicationExit
-
-        activePanel.AutoScroll = True
-        completedPanel.AutoScroll = True
 
         ' Set colours
         Dim colours As New Colours()
@@ -26,38 +23,49 @@ Public Class Form1
         addButton.FlatAppearance.BorderSize = 0
 
         ' Read XML data file
-        Dim fileLocation As String = Application.StartupPath & "\taskList.xml", data As New DataSet()
-
-        'data.Tables.Add()
-        'data.Tables(0).Columns.Add("taskName", GetType(String))
-        'data.Tables(0).Columns.Add("isCompleted", GetType(Boolean))
-        'data.Tables(0).Columns.Add("isDeleted", GetType(Boolean))
-        'data.Tables(0).Columns.Add("locationIndex", GetType(Integer))
-
+        Dim data As New DataSet()
         data = readXML(fileLocation)
 
-        '' Write new data
-        'writeXML(data, fileLocation)
+        Dim activeTasksList As New List(Of Task),
+            completedTasksList As New List(Of Task)
 
-        For Each i In data.Tables(0).Rows
-            Dim taskElement As New Task(i.Item(0), Integer.Parse(i.Item(1)), Boolean.Parse(i.Item(2)), Boolean.Parse(i.Item(3)), activePanel, completedPanel)
-            If Not taskElement.isComplete Then
-                activePanel.Controls.Add(taskElement)
-            ElseIf taskElement.isComplete Then
-                completedPanel.Controls.Add(taskElement)
-            End If
-        Next
+        If data.Tables.Count > 0 Then
+            For Each taskData In data.Tables(0).Rows
+                Dim taskElement As New Task(taskData.Item(0), Integer.Parse(taskData.Item(3)), activePanel, completedPanel),
+                    isCompleted = Boolean.Parse(taskData.Item(1)),
+                    isDeleted = Boolean.Parse(taskData.Item(2))
+
+                If Not isCompleted And Not isDeleted Then
+                    activeTasksList.Add(taskElement)
+                ElseIf isCompleted And Not isDeleted Then
+                    completedTasksList.Add(taskElement)
+                End If
+            Next
+
+            Dim i As Integer = 0
+            For Each task In activeTasksList
+                task.changePositionIndex(i)
+                activePanel.Controls.Add(task)
+                i += 1
+            Next
+
+            Dim ii As Integer = 0
+            For Each task In completedTasksList
+                task.changePositionIndex(ii)
+                completedPanel.Controls.Add(task)
+                task.complete(task.Controls.Find("taskCompleteButton", True)(0), Nothing, False)
+                ii += 1
+            Next
+        End If
 
         Me.Width = activePanel.Width = 385
     End Sub
 
     Public Function readXML(FileLocation As String)
         Dim dataset As New DataSet(),
-            datatable As DataTable,
             response As String = File.ReadAllText(FileLocation)
 
         dataset.ReadXml(New StringReader(response))
-        datatable = dataset.Tables(0)
 
         Return dataset
     End Function
@@ -76,8 +84,8 @@ Public Class Form1
         For Each d In tasksTable.Rows
             writer.WriteStartElement("task")
             writer.WriteElementString("taskText", d.Item(0))
-            writer.WriteElementString("isDeleted", d.Item(1))
-            writer.WriteElementString("isCompleted", d.Item(2))
+            writer.WriteElementString("isCompleted", d.Item(1))
+            writer.WriteElementString("isDeleted", d.Item(2))
             writer.WriteElementString("positionIndex", d.Item(3))
             writer.WriteEndElement()
         Next
@@ -87,14 +95,42 @@ Public Class Form1
         writer.Close()
     End Sub
 
-    Private Sub Form1_ApplicationExit()
-        '' Add 4 tasks to data
-        'Data.Tables(0).Rows.Add("task 0", False, False, 0)
-        'Data.Tables(0).Rows.Add("task 1", False, False, 1)
-        'Data.Tables(0).Rows.Add("task 2", False, False, 2)
-        'Data.Tables(0).Rows.Add("task 3", False, False, 3)
-        'Data.Tables(0).Rows.Add("task 4", False, False, 3)
-        'Data.Tables(0).Rows.Add("task 5", False, False, 3)
+    Private Sub Form1_Closing(Source As Object, e As EventArgs) Handles Me.Closing
+        Dim confirmed = MsgBox("Do you want to save your changes to 'TaskList1'?", vbYesNo)
+
+        If confirmed = vbYes Then
+            Dim ds As New DataSet()
+
+            ds.Tables.Add("tasks")
+            ds.Tables(0).Columns.Add("taskName", GetType(String))
+            ds.Tables(0).Columns.Add("isCompleted", GetType(Boolean))
+            ds.Tables(0).Columns.Add("isDeleted", GetType(Boolean))
+            ds.Tables(0).Columns.Add("locationIndex", GetType(Integer))
+
+            For Each task In activePanel.Controls
+                ds.Tables(0).Rows.Add(task.Controls.Find("taskTextBox", True)(0).Text, False, False, activePanel.Controls.IndexOf(task))
+            Next
+            For Each task In completedPanel.Controls
+                ds.Tables(0).Rows.Add(task.Controls.Find("taskTextBox", True)(0).Text, True, False, completedPanel.Controls.IndexOf(task))
+            Next
+
+            writeXML(ds, fileLocation)
+        End If
+
+    End Sub
+
+    Private Sub addButton_Click(sender As Object, e As EventArgs) Handles addButton.Click
+        addTaskForm.tasksForm = Me
+        addTaskForm.Reset()
+        addTaskForm.Show()
+    End Sub
+
+    ' For Form2
+    Public Sub addTask(taskName As String)
+        Dim taskPositionIndex As Integer = activePanel.Controls.Count,
+            newTask As New Task(taskName, taskPositionIndex, activePanel, completedPanel)
+        activePanel.Controls.Add(newTask)
+        addTaskForm.Hide()
     End Sub
 
 End Class
@@ -119,8 +155,8 @@ Public Class Task
     Public Property defaultHeight As Integer = 62
     Public Property defaultFontsize As Integer = 20
 
-    Public Property isDeleted As Boolean = Nothing
-    Public Property isComplete As Boolean = Nothing
+    Public Property isDeleted As Boolean = False
+    Public Property isComplete As Boolean = False
 
     Public Property completedPanel As Panel = Nothing
     Public Property activePanel As Panel = Nothing
@@ -129,10 +165,11 @@ Public Class Task
 
     Public Property colours As New Colours
 
-    Public Sub New(taskText As String, taskPositionIndex As Integer, isCompleteBool As Boolean, isDeletedBool As Boolean, activePanelElem As Panel, completedPanelElem As Panel)
+    Public Sub New(taskText As String, taskPositionIndex As Integer, activePanelElem As Panel, completedPanelElem As Panel)
 
         ' Add Complete Button
         Dim taskCompleteButton As New Button
+        taskCompleteButton.Name = "taskCompleteButton"
         taskCompleteButton.Dock = DockStyle.Left
         taskCompleteButton.Width = defaultWidth
         taskCompleteButton.Height = defaultHeight
@@ -146,6 +183,7 @@ Public Class Task
 
         ' Add TextBox
         Dim taskTextBox As New TextBox
+        taskTextBox.Name = "taskTextBox"
         taskTextBox.Top = ((taskCompleteButton.Height) / 2) - (taskTextBox.Height / 2) + 2.5
         taskTextBox.Left = taskCompleteButton.Location.X + taskCompleteButton.Size.Width + 10
         taskTextBox.Width = defaultWidth * 3
@@ -157,6 +195,7 @@ Public Class Task
 
         ' Add Delete Button
         Dim taskDeleteButton As New Button
+        taskDeleteButton.Name = "taskDeleteButton"
         taskDeleteButton.Dock = DockStyle.Right
         taskDeleteButton.Width = defaultWidth
         taskDeleteButton.Height = defaultHeight
@@ -180,17 +219,27 @@ Public Class Task
         ' Set Class Properties
         activePanel = activePanelElem
         completedPanel = completedPanelElem
-        isComplete = isCompleteBool
-        isDeleted = isDeletedBool
     End Sub
 
     Public Function changePositionIndex(newIndex As Integer)
-        Me.Location = New Point(10, 75 * newIndex)
+        Dim Location As New Point(10, 75 * newIndex)
+        Me.Location = validateTaskLocation(Location, newIndex)
         positionIndex = newIndex
         Return newIndex
     End Function
 
-    Public Function complete(sender As Button, e As EventArgs)
+    Public Function validateTaskLocation(location As Point, positionIndex As Integer)
+        Dim newLocation As Point = location
+        If Not (location.Y / positionIndex = 75) Then
+            newLocation.Y = positionIndex * 75
+        End If
+        If Not location.X = 10 Then
+            newLocation.X = 10
+        End If
+        Return newLocation
+    End Function
+
+    Public Function complete(sender As Button, e As EventArgs, Optional changePosition As Boolean = True)
         If isComplete Then
             Me.undo(sender, e)
             Return True
@@ -203,7 +252,9 @@ Public Class Task
             End If
         Next
 
-        changePositionIndex(completedPanel.Controls.Count)
+        If changePosition Then
+            changePositionIndex(completedPanel.Controls.Count)
+        End If
         sender.BackColor = colours.yellow
         sender.Text = "⬅"
 
@@ -213,7 +264,7 @@ Public Class Task
         Return True
     End Function
 
-    Public Function delete(sender As Object, e As EventArgs)
+    Public Function delete(sender As Button, e As EventArgs)
         Dim confirmed = MsgBox("Are you sure you want to delete this task?" & vbCrLf & "This action CANNOT BE UNDONE.", vbYesNo)
 
         If confirmed = vbYes And Not isDeleted Then
@@ -239,7 +290,6 @@ Public Class Task
             End If
         Next
 
-        MsgBox(activePanel.Controls.Count)
         Me.changePositionIndex(activePanel.Controls.Count)
         sender.BackColor = colours.green
         sender.Text = "✔"

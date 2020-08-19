@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class viewTasksForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -40,10 +40,10 @@ Partial Class Form1
         '
         Me.activePanel.AutoScroll = True
         Me.activePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.activePanel.Location = New System.Drawing.Point(3, 15)
-        Me.activePanel.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.activePanel.Location = New System.Drawing.Point(7, 33)
+        Me.activePanel.Margin = New System.Windows.Forms.Padding(2)
         Me.activePanel.Name = "activePanel"
-        Me.activePanel.Size = New System.Drawing.Size(378, 250)
+        Me.activePanel.Size = New System.Drawing.Size(882, 738)
         Me.activePanel.TabIndex = 0
         '
         'Label1
@@ -51,10 +51,10 @@ Partial Class Form1
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!)
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer))
-        Me.Label1.Location = New System.Drawing.Point(7, 19)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(1, 0, 1, 0)
+        Me.Label1.Location = New System.Drawing.Point(16, 42)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(131, 20)
+        Me.Label1.Size = New System.Drawing.Size(295, 40)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Homework Tasks"
         '
@@ -63,11 +63,11 @@ Partial Class Form1
         Me.GroupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.GroupBox1.Controls.Add(Me.activePanel)
         Me.GroupBox1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer))
-        Me.GroupBox1.Location = New System.Drawing.Point(5, 48)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 107)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(2)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(1, 1, 1, 1)
-        Me.GroupBox1.Size = New System.Drawing.Size(383, 268)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(2)
+        Me.GroupBox1.Size = New System.Drawing.Size(894, 775)
         Me.GroupBox1.TabIndex = 4
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Active Tasks"
@@ -76,11 +76,11 @@ Partial Class Form1
         '
         Me.GroupBox2.Controls.Add(Me.completedPanel)
         Me.GroupBox2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer), CType(CType(181, Byte), Integer))
-        Me.GroupBox2.Location = New System.Drawing.Point(8, 319)
-        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.GroupBox2.Location = New System.Drawing.Point(12, 886)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(2)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(1, 1, 1, 1)
-        Me.GroupBox2.Size = New System.Drawing.Size(383, 165)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(2)
+        Me.GroupBox2.Size = New System.Drawing.Size(894, 818)
         Me.GroupBox2.TabIndex = 5
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Completed Tasks"
@@ -88,37 +88,38 @@ Partial Class Form1
         'completedPanel
         '
         Me.completedPanel.AutoScroll = True
-        Me.completedPanel.Location = New System.Drawing.Point(3, 15)
-        Me.completedPanel.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.completedPanel.Location = New System.Drawing.Point(7, 33)
+        Me.completedPanel.Margin = New System.Windows.Forms.Padding(2)
         Me.completedPanel.Name = "completedPanel"
-        Me.completedPanel.Size = New System.Drawing.Size(378, 146)
+        Me.completedPanel.Size = New System.Drawing.Size(882, 781)
         Me.completedPanel.TabIndex = 0
         '
         'addButton
         '
-        Me.addButton.Location = New System.Drawing.Point(361, 17)
-        Me.addButton.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
+        Me.addButton.Location = New System.Drawing.Point(842, 38)
+        Me.addButton.Margin = New System.Windows.Forms.Padding(2)
         Me.addButton.Name = "addButton"
-        Me.addButton.Size = New System.Drawing.Size(24, 26)
+        Me.addButton.Size = New System.Drawing.Size(56, 58)
         Me.addButton.TabIndex = 7
         Me.addButton.Text = "+"
         Me.addButton.UseVisualStyleBackColor = True
         '
-        'Form1
+        'viewTasksForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(14.0!, 29.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(400, 492)
+        Me.ClientSize = New System.Drawing.Size(934, 1715)
         Me.Controls.Add(Me.addButton)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.Label1)
         Me.ForeColor = System.Drawing.SystemColors.Control
-        Me.Margin = New System.Windows.Forms.Padding(1, 1, 1, 1)
-        Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.Name = "viewTasksForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "View Tasks"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
