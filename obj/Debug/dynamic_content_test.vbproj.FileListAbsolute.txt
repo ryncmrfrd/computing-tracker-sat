@@ -11,17 +11,8 @@ C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.
 C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.pdb
 C:\Users\ryncm\source\repos\dynamic_content_test\obj\Debug\dynamic_content_test.Form1.resources
 C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.vbprojAssemblyReference.cache
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.Form1.resources
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.Resources.resources
 C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.vbproj.GenerateResource.cache
 C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.vbproj.CoreCompileInputs.cache
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.exe
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.xml
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\dynamic_content_test.pdb
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\dynamic_content_test.exe.config
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\dynamic_content_test.exe
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\dynamic_content_test.pdb
-C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\dynamic_content_test.xml
 C:\Code\computing-tracker-sat\obj\Debug\dynamic_content_test.vbprojAssemblyReference.cache
 C:\Code\computing-tracker-sat\obj\Debug\dynamic_content_test.vbproj.GenerateResource.cache
 C:\Code\computing-tracker-sat\obj\Debug\dynamic_content_test.vbproj.CoreCompileInputs.cache
@@ -35,3 +26,15 @@ C:\Code\computing-tracker-sat\obj\Debug\homeworkTasksApp.Resources.resources
 C:\Code\computing-tracker-sat\obj\Debug\homeworkTasksApp.exe
 C:\Code\computing-tracker-sat\obj\Debug\homeworkTasksApp.xml
 C:\Code\computing-tracker-sat\obj\Debug\homeworkTasksApp.pdb
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\homeworkTasksApp.exe.config
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\homeworkTasksApp.exe
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\homeworkTasksApp.pdb
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\bin\Debug\homeworkTasksApp.xml
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.viewTasksForm.resources
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.Resources.resources
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.exe
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.xml
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.pdb
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.deleteConfirmation.resources
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.frmSaveConfirmation.resources
+C:\Users\Ryan Comerford\Documents\GitHub\computing-tracker-sat\obj\Debug\homeworkTasksApp.frmAddTask.resources

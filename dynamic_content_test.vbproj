@@ -73,17 +73,29 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.vb">
+    <Compile Include="frmSaveConfirmation.Designer.vb">
+      <DependentUpon>frmSaveConfirmation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaveConfirmation.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="frmDeleteConfirmation.Designer.vb">
+      <DependentUpon>frmDeleteComfirmation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDeleteComfirmation.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.vb">
-      <DependentUpon>Form2.vb</DependentUpon>
+    <Compile Include="frmViewTasks.vb">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.vb">
+    <Compile Include="frmViewTasks.Designer.vb">
+      <DependentUpon>frmViewTasks.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddTask.Designer.vb">
+      <DependentUpon>frmAddTask.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddTask.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -104,11 +116,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="frmSaveConfirmation.resx">
+      <DependentUpon>frmSaveConfirmation.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.vb</DependentUpon>
+    <EmbeddedResource Include="frmDeleteConfirmation.resx">
+      <DependentUpon>frmDeleteComfirmation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTasks.resx">
+      <DependentUpon>frmViewTasks.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddTask.resx">
+      <DependentUpon>frmAddTask.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
