@@ -1,2 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<tasks />
+<tasks>
+    <task>
+        <taskText>cunt]</taskText>
+        <isCompleted>False</isCompleted>
+        <isDeleted>False</isDeleted>
+        <positionIndex>0</positionIndex>
+    </task>
+    <task>
+        <taskText>oof</taskText>
+        <isCompleted>False</isCompleted>
+        <isDeleted>False</isDeleted>
+        <positionIndex>1</positionIndex>
+    </task>
+    <task>
+        <taskText>mega oof</taskText>
+        <isCompleted>False</isCompleted>
+        <isDeleted>False</isDeleted>
+        <positionIndex>2</positionIndex>
+    </task>
+</tasks>
